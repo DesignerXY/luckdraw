@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ringbet.luckdraw.dao.LuckuserMapper">
+  <resultMap id="BaseResultMap" type="com.ringbet.luckdraw.model.Luckuser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="awardsid" jdbcType="INTEGER" property="awardsid" />
+    <result column="signinuserid" jdbcType="INTEGER" property="signinuserid" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  
+  <select id="findLastLuckuserVOs" resultType="com.ringbet.luckdraw.entity.LuckuserVO">  
+        SELECT a.id,a.number as lucknum,a.createtime as lucktime,
+		  b.id as awardsid,b.name as awardsname,b.description as awardsdesc,
+		  c.id as signinuserid,c.createtime as signintime,
+		  d.id as signinid,d.description as signindesc,
+		  e.id as userid,e.name as username,e.headimgurl
+		  from luckuser a 
+		  INNER join awards b on a.awardsid=b.id
+		  INNER join signinuser c on a.signinuserid=c.id
+		  INNER join signin d on c.signinid=d.id
+		  INNER join user e on c.userid=e.id
+		  where d.id = #{signinid,jdbcType=INTEGER}
+		  order by b.sort asc,a.createtime asc,c.createtime asc;
+  </select>
+  
+  <select id="findLuckuserVO" resultType="com.ringbet.luckdraw.entity.LuckuserVO" parameterType="java.util.Map">  
+        SELECT a.id,a.number as lucknum,a.createtime as lucktime,
+		  b.id as awardsid,b.name as awardsname,b.description as awardsdesc,
+		  c.id as signinuserid,c.createtime as signintime,
+		  d.id as signinid,d.description as signindesc,
+		  e.id as userid,e.name as username,e.headimgurl
+		  from luckuser a 
+		  INNER join awards b on a.awardsid=b.id
+		  INNER join signinuser c on a.signinuserid=c.id
+		  INNER join signin d on c.signinid=d.id
+		  INNER join user e on c.userid=e.id
+		 where c.id=#{signinuserid,jdbcType=INTEGER}
+		  order by b.sort asc,a.createtime asc,c.createtime asc;
+  </select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ringbet.luckdraw.dao.SigninuserMapper">
+  <resultMap id="BaseResultMap" type="com.ringbet.luckdraw.model.Signinuser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="signinid" jdbcType="INTEGER" property="signinid" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  
+  <select id="findBy" resultType="com.ringbet.luckdraw.model.Signinuser" parameterType="java.util.Map">  
+        SELECT * from signinuser where signinid = #{signinid,jdbcType=INTEGER} AND userid = #{userid,jdbcType=INTEGER} order by id desc limit 0,1;
+  </select>
+  
+  <select id="findLastSigninuserVOs" resultType="com.ringbet.luckdraw.entity.SigninuserVO">  
+		  SELECT c.id as signinuserid,c.createtime as signintime,
+		  d.id as signinid,d.description as signindesc,
+		  e.id as userid,e.name as username,e.headimgurl
+		  from signinuser c 
+		  INNER join signin d on c.signinid=d.id
+		  INNER join user e on c.userid=e.id
+		  where d.id = #{signinid,jdbcType=INTEGER}
+		  order by c.createtime asc;
+		  
+  </select>
+</mapper>

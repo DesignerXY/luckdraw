@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ringbet.luckdraw.dao.SigninMapper">
+  <resultMap id="BaseResultMap" type="com.ringbet.luckdraw.model.Signin">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="begintime" jdbcType="TIMESTAMP" property="begintime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  
+  <select id="findLast" resultType="com.ringbet.luckdraw.model.Signin">  
+        SELECT * from signin order by id desc limit 0,1;
+  </select>
+  
+  <update id="updateEndtime" parameterType="com.ringbet.luckdraw.model.Signin">
+		update signin
+		set endtime = #{endtime,jdbcType=TIMESTAMP},
+		updatetime = #{updatetime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
