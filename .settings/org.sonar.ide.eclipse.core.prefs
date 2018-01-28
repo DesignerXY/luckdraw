@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+extraProperties=sonar.host.url\=http\://172.20.1.12\:9090
+projectKey=wawa-app\:wawa-app
+serverUrl=http\://localhost\:9000
+version=2

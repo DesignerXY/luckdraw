@@ -124,10 +124,10 @@
 					  else
 						 	window.location.href = window.location.href;
 				  } else
-					alert(json["message"]);
+						alert(json["message"]);
 			  },
 			  error: function() {
-			        // alert("失败，请稍后再试！");
+			  	// alert("失败，请稍后再试！");
 			  }
 		});
 	}
