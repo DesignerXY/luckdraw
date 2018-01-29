@@ -87,7 +87,7 @@ function getLuckusers() {
 				  var ac0=0, ac1=0, ac2=0, ac3=0, ac4=0; 
 				  var div = '';
 				  for(var i=0; i<data.length; i++) {
-					  div = '<img src="'+data[i]["headimgurl"]+'">';
+					  div = '<img src="'+(data[i]["headimgurl"] || '${ctx}/resources/images/timg.jpg')+'">';
 					  if (0 == data[i]["awardsid"] - 1) {
 						  li0 += div;
 						  ac0++;

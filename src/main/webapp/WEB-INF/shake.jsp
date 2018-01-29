@@ -178,6 +178,7 @@
 
 		<script type="text/javascript" src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript">
+			var isShaking = false;
 			//先判断设备是否支持HTML5摇一摇功能
 			if(window.DeviceMotionEvent) {
 				//获取移动速度，得到device移动时相对之前某个时间的差值比
@@ -223,10 +224,10 @@
 						shakeAudio.play();
 						//播放动画
 						$('.shake_box').addClass('shake_box_focus');
-						clearTimeout(shakeTimeout);
+						/* clearTimeout(shakeTimeout);
 						var shakeTimeout = setTimeout(function() {
 							$('.shake_box').removeClass('shake_box_focus');
-						}, 1000)
+						}, 1000) */
 						
 						shake();
 					}
@@ -264,17 +265,27 @@
 			}) */
 			
 			function shake() {
-				$.ajax({ 
-					url: "${ctx}/luckuser/afterShake?signinuserid=${signinuserid}", 
-					success: function(json){
-						json = toJson(json);
-						if (200 == json["code"]) {
-//			        		alert(json["message"]);
-							window.location.href = "${ctx}/luckuser/luckdraw?signinuserid=${signinuserid}";
-						} else
-							alert(json["message"]);
-			      	}
-				});
+				if (!isShaking) {	//请求还没返回
+					isShaking = true;
+					$.ajax({ 
+						url: "${ctx}/luckuser/afterShake?signinuserid=${signinuserid}", 
+						success: function(json){
+							$('.shake_box').removeClass('shake_box_focus');
+							json = toJson(json);
+							if (200 == json["code"]) {
+//				        		alert(json["message"]);
+								window.location.href = "${ctx}/luckuser/luckdraw?signinuserid=${signinuserid}";
+							} else
+								alert(json["message"]);
+							isShaking = false;
+				      	},
+				      	error:function(){
+				      		$('.shake_box').removeClass('shake_box_focus');
+				      		alert("呃……出错了，等下再试试吧！");
+				      		isShaking = false;
+				      	}
+					});
+				}
 			}
 			
 			function toJson(str) {

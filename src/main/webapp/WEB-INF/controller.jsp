@@ -70,10 +70,11 @@
 					  var signuserVOs = json["data"] || '[]';
 					  var li1 = '', li2 = '';
 					  for(var i=0; i<signuserVOs.length; i++) {
+						  var img = '<img src="'+(signuserVOs[i]["headimgurl"] || '${ctx}/resources/images/timg.jpg')+'">'
 						  if (0 == i%2) {
-							  li1 += '<img src="'+signuserVOs[i]["headimgurl"]+'">';
+							  li1 += img;
 						  } else {
-							  li2 += '<img src="'+signuserVOs[i]["headimgurl"]+'">';
+							  li2 += img;
 						  }
 					  }
 					  $("#li1").html(li1);
