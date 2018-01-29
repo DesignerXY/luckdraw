@@ -20,6 +20,7 @@ import com.ringbet.luckdraw.entity.SigninuserVO;
 import com.ringbet.luckdraw.manager.LuckdrawManager;
 import com.ringbet.luckdraw.model.Signin;
 import com.ringbet.luckdraw.model.Signinuser;
+import com.ringbet.luckdraw.model.User;
 import com.ringbet.luckdraw.service.SigninService;
 import com.ringbet.luckdraw.service.SigninuserService;
 import com.ringbet.luckdraw.service.UserService;
@@ -57,6 +58,9 @@ public class SigninuserController {
     	if (null == userid || userid.equals(0)) {//没有用户信息，去授权页面授权
 			return "redirect:/social/wechat/mobile";
 		}
+    	User user = userService.findById(userid);
+    	if (null == user || null == user.getId() || user.getId().equals(0))
+    		return "redirect:/social/wechat/mobile";
     	
     	Signinuser su = signinuserService.findBy(signin.getId(), userid);
     	if (null == su || null == su.getId() || su.getId().equals(0)) {//还未签到

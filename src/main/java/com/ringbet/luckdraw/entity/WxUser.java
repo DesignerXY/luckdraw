@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.ringbet.luckdraw.model.User;
-import com.ringbet.luckdraw.utils.SLEmojiFilter;
 
 /** 
  * Create By ML 2016-11-08.
@@ -166,13 +165,13 @@ public class WxUser implements Serializable {
 		user.setId(null);
 		user.setLanguage(this.language);
 		user.setMobile(null);
-//		user.setName(this.nickname);
+		user.setName(this.nickname);
 		/*try {
 			user.setName(new String(this.nickname.getBytes("UTF-8"), "GBK"));
 		} catch (UnsupportedEncodingException e) {
 			user.setName("???");
 		}*/
-		user.setName(SLEmojiFilter.filterEmoji(this.nickname));
+//		user.setName(SLEmojiFilter.filterEmoji(this.nickname));
 		user.setOpenid(this.openid);
 		user.setPassword(null);
 		user.setPrivilege(JSON.toJSONString(this.privilege));
