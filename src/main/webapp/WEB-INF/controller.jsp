@@ -38,6 +38,7 @@
   </tr>
   <tr>
     <td align="center" valign="bottom" style="padding-bottom:2%">
+    已入场 <span id="signusercount" style="font-size:21px;">0</span> 人<br/>
   	<input id="changeButton" type="button" value="开始抽奖" class="btn_cj" onclick="doit('start');">
 	    <%-- <c:when test="${'start' eq status}">
 	    	<input id="changeButton" type="button" value="暂停抽奖" class="btn_cj" onclick="doit('pause');">
@@ -79,6 +80,7 @@
 					  }
 					  $("#li1").html(li1);
 					  $("#li2").html(li2);
+					  $("#signusercount").html(signuserVOs.length);
 				  }
 			  },
 			  error: function() {
@@ -99,7 +101,7 @@
 					  var status = json["data"] || "";
 					  if ("start" == status) {
 						  $("#changeButton").val("暂停抽奖").attr("onclick", "doit('pause')");
-					  } else if ("pause" == status) {
+					  } else if ("init" == status || "pause" == status) {
 						  $("#changeButton").val("开始抽奖").attr("onclick", "doit('start')");
 					  } else if ("finish" == status) {
 						  $("#changeButton").val("抽奖已结束").removeAttr("onclick");

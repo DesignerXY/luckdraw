@@ -129,6 +129,8 @@ public class LuckuserController {
     @RequestMapping("/drawStatus")
     public Result drawStatus() {
     	String status = "";
+    	if (ldm.isInit())
+    		status = "init";
     	if (ldm.isStart())
     		status = "start";
         if (ldm.isPause())

@@ -140,7 +140,7 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
     
     
     public boolean startDraw() {
-    	if (2 == drawStatus || 3 == drawStatus) //开奖或结束状态
+    	if (2 == drawStatus || luckcount == signinuserVOs.size()) //开奖或签到人数已经达到了中奖人数（结束状态）
     		return false;
     		
     	if (0 == drawStatus || 1 == drawStatus) {//未开始或暂停状态
@@ -160,11 +160,14 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
 			log.info(String.format("luckNums[%s], luvos[%s]", JSON.toJSONString(luckNums), JSON.toJSONString(luvos)));
 			if (null != luvos && !luvos.isEmpty()) {
 				luckuserVOs = luvos;
+				//重置获奖人数
+				luckcount = 0;
 				//把已中奖的号码从彩池剔除
 				for (LuckuserVO luvo : luckuserVOs) {
 					int index = luckNums.indexOf(luvo.getLucknum());
 					if (-1 != index) {
 						luckNums.remove(index);
+						luckcount++;
 					}
 				}
 			}
@@ -213,9 +216,9 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
     			awardsid = key;
     			break;//找到奖项了，结束吧
     		}
-    		oldCount = awardsMap.get(key).getCount();
+    		oldCount += awardsMap.get(key).getCount();
     	}
-    	log.info(String.format("signinuserid=%d, lucknum=%d, awardsid=%d", signinuserid, luckNum, awardsid));
+    	log.info(String.format("signinuserid=%d, lucknum=%d, awardsid=%d, oldLuckcount=%d", signinuserid, luckNum, awardsid, luckcount));
     	
     	Luckuser lu = new Luckuser();
     	lu.setAwardsid(awardsid);
@@ -229,7 +232,9 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
     	
     	luckNums.remove(index);
     	luckcount++;
-    	if (0 == luckcount%10 && 30 > luckcount) {	//前两次开奖，每次只开10个
+    	if (luckcount == signinuserVOs.size()) {
+    		drawStatus = 3;
+    	} else if (0 == luckcount%10 && 30 > luckcount) {	//前两次开奖，每次只开10个
     		drawStatus = 1;
     	}
     	return luvo;

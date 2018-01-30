@@ -281,7 +281,7 @@
 				      	},
 				      	error:function(){
 				      		$('.shake_box').removeClass('shake_box_focus');
-				      		alert("呃……出错了，等下再试试吧！");
+//				      		alert("呃……出错了，等下再试试吧！");
 				      		isShaking = false;
 				      	}
 					});
@@ -290,6 +290,20 @@
 			
 			function toJson(str) {
 				return eval('(' + str + ')')
+			}
+			
+			
+			
+			function shakesu(signinuserid) {
+				$.ajax({ 
+					url: "${ctx}/luckuser/afterShake?signinuserid=" + signinuserid, 
+					success: function(json){
+						$("body").append(signinuserid+">>>"+json);
+			      	},
+			      	error:function(){
+			      		$("body").append(signinuserid+">>>error");
+			      	}
+				});
 			}
 		</script>
 	</body>
