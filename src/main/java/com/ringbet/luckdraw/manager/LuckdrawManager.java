@@ -143,7 +143,7 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
     	if (2 == drawStatus || luckcount == signinuserVOs.size()) //开奖或签到人数已经达到了中奖人数（结束状态）
     		return false;
     		
-    	if (0 == drawStatus || 1 == drawStatus) {//未开始或暂停状态
+//    	if (0 == drawStatus || 1 == drawStatus) {//未开始或暂停状态
     		//拿到所有签到账号
     		List<SigninuserVO> list = signinuserService.findLastSigninuserVOs();
 			if (null == list || list.isEmpty())	//失败
@@ -173,7 +173,7 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
 			}
 			log.info(String.format("最终彩池号码luckNums[%s]", JSON.toJSONString(luckNums)));
 			drawStatus = 2;
-    	}
+//    	}
     	
     	/*if (1 == drawStatus) {	//暂停状态
 			List<SigninuserVO> list = signinuserService.findLastSigninuserVOs();
