@@ -20,8 +20,8 @@ body{ margin:0; padding:0; font-size:0.8em; color: #fff; font-family:"微软雅�
 .tittle{ color:#f24e30; padding:10px; font-size:1.2em; font-weight:bold; border-radius:10px; text-align:center; margin-bottom:10px;}
 .zj_box{ text-align:center;}
 .zj_box img{width:60px; margin:10px; border:3px solid #fff;}
-.box{width:10%; float:left; padding:10px;}
-.box2{width:15%; float:left; padding:10px;}
+.box{width:12%; float:left; padding:10px;}
+.box2{width:16%; float:left; padding:10px;}
 .box3{width:25%; float:left; padding:10px;}
 
 </style>
@@ -31,30 +31,40 @@ body{ margin:0; padding:0; font-size:0.8em; color: #fff; font-family:"微软雅�
   <tr>
     <td align="center" valign="top" style="padding-top:13%; padding-left:15%;">
 	
-		<div class="box">
-              <div class="tittle" style="background:#f24e30; color:#fff;">特等奖</div>
-              <div id="awards0" class="zj_box"></div>
-        </div>
-			
-		<div class="box">
-              <div class="tittle" style="background:#fdf4c6;">一等奖</div>
-              <div id="awards1" class="zj_box"></div>
-        </div>
-			
-		<div class="box2">
-              <div class="tittle" style="background:#fcdfbe;">二等奖</div>
-              <div id="awards2" class="zj_box"></div>
-        </div>
-			
-		<div class="box2">
-              <div class="tittle" style="background:#e5d1bb;">三等奖</div>
-              <div id="awards3" class="zj_box"></div>
-        </div>
-						
-		<div class="box3">
-              <div class="tittle" style="background:#e2e2e2;">四等奖</div>
-              <div id="awards4" class="zj_box"></div>
-        </div>
+        <c:forEach items="${awardsMap}" var="entry" varStatus="vs">
+        	<c:choose>
+        		<c:when test="${1 eq entry.key}">
+        			<div class="box">
+			              <div class="tittle" style="background:#f24e30; color:#fff;">特等奖(<span id="count${entry.key}">0</span>/${entry.value.count})</div>
+			              <div id="users${entry.key}" class="zj_box"></div>
+			        </div>
+        		</c:when>
+        		<c:when test="${2 eq entry.key}">
+        			<div class="box">
+			              <div class="tittle" style="background:#fdf4c6;">一等奖(<span id="count${entry.key}">0</span>/${entry.value.count})</div>
+			              <div id="users${entry.key}" class="zj_box"></div>
+			        </div>
+        		</c:when>
+        		<c:when test="${3 eq entry.key}">
+        			<div class="box2">
+			              <div class="tittle" style="background:#fcdfbe;">二等奖(<span id="count${entry.key}">0</span>/${entry.value.count})</div>
+			              <div id="users${entry.key}" class="zj_box"></div>
+			        </div>
+        		</c:when>
+        		<c:when test="${4 eq entry.key}">
+        			<div class="box2">
+			              <div class="tittle" style="background:#e5d1bb;">三等奖(<span id="count${entry.key}">0</span>/${entry.value.count})</div>
+			              <div id="users${entry.key}" class="zj_box"></div>
+			        </div>
+        		</c:when>
+        		<c:otherwise>
+        			<div class="box3">
+			              <div class="tittle" style="background:#e2e2e2;">四等奖(<span id="count${entry.key}">0</span>/${entry.value.count})</div>
+			              <div id="users${entry.key}" class="zj_box"></div>
+			        </div>
+        		</c:otherwise>
+        	</c:choose>
+        </c:forEach>
 		<div style="clear:both"></div>
 	</td>
   </tr>
@@ -79,37 +89,43 @@ function getLuckusers() {
 		  success:function(json){
 			  if (200 == json["code"]) {
 				  var data = json["data"] || '[]';
-				  var li0 = '',
-				  	li1 = '',
+				  var li1 = '',
 				  	li2 = '',
 				  	li3 = '',
-				  	li4 = '';
-				  var ac0=0, ac1=0, ac2=0, ac3=0, ac4=0; 
+				  	li4 = '',
+				  	li5 = '';
+				  var ac1=0, ac2=0, ac3=0, ac4=0, ac5=0; 
 				  var div = '';
 				  for(var i=0; i<data.length; i++) {
-					  div = '<img title="'+data[i]["username"]+'" src="'+(data[i]["headimgurl"] || '${ctx}/resources/images/timg.jpg')+'">';
-					  if (0 == data[i]["awardsid"] - 1) {
-						  li0 += div;
-						  ac0++;
-					  } else if (1 == data[i]["awardsid"] - 1) {
+					  div = '<img title="'+data[i]["username"]+'" src="'+(data[i]["headimgurl"] || '${ctx}/resources/images/timg.jpg')+'"/>';
+					  if (1 == data[i]["awardsid"]) {
 						  li1 += div;
 						  ac1++;
-					  } else if (2 == data[i]["awardsid"] - 1) {
+					  } else if (2 == data[i]["awardsid"]) {
 						  li2 += div;
 						  ac2++;
-					  } else if (3 == data[i]["awardsid"] - 1) {
+					  } else if (3 == data[i]["awardsid"]) {
 						  li3 += div;
 						  ac3++;
-					  } else if (4 == data[i]["awardsid"] - 1) {
+					  } else if (4 == data[i]["awardsid"]) {
 						  li4 += div;
 						  ac4++;
+					  } else if (5 == data[i]["awardsid"]) {
+						  li5 += div;
+						  ac5++;
 					  }
 				  }
-				  $("#awards0").html(li0);
-				  $("#awards1").html(li1);
-				  $("#awards2").html(li2);
-				  $("#awards3").html(li3);
-				  $("#awards4").html(li4);
+				  $("#users1").html(li1);
+				  $("#users2").html(li2);
+				  $("#users3").html(li3);
+				  $("#users4").html(li4);
+				  $("#users5").html(li5);
+				  
+				  $("#count1").html(ac1);
+				  $("#count2").html(ac2);
+				  $("#count3").html(ac3);
+				  $("#count4").html(ac4);
+				  $("#count5").html(ac5);
 			  }
 		  },
 		  error: function() {

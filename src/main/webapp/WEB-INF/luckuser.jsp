@@ -29,7 +29,12 @@
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="padding-top:3%;">
 			<tr>
 				<td class="td_border">
-					<P>奖项设置</P>特等奖:<span>1800</span>元(1个)&nbsp;&nbsp;&nbsp;&nbsp;一等奖:<span>1000</span>元(2个)&nbsp;&nbsp;&nbsp;&nbsp;二等奖:<span>600</span>元(4个)&nbsp;&nbsp;&nbsp;&nbsp;三等奖:<span>388</span>元(10个)&nbsp;&nbsp;&nbsp;&nbsp;四等奖:<span>268</span>元(15个)</td>
+					<P>奖项设置</P>
+					<c:forEach items="${awardsMap}" var="entry" varStatus="vs">
+						${entry.value.name}:<span>${entry.value.description}</span>元(${entry.value.count}个)
+						<c:if test="${not vs.last}">&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
+					</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td class="td_border">

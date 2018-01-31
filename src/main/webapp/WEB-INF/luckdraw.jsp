@@ -39,44 +39,16 @@
 			<tr>
 				<td class="td_border" id="syawards">
 					<P>剩余奖项</P>
-					特等奖:<span>1800</span>元(1个)&nbsp;&nbsp;&nbsp;&nbsp;
-					一等奖:<span>1000</span>元(2个)&nbsp;&nbsp;&nbsp;&nbsp;
-					二等奖:<span>600</span>元(4个)&nbsp;&nbsp;&nbsp;&nbsp;
-					三等奖:<span>388</span>元(10个)&nbsp;&nbsp;&nbsp;&nbsp;
-					四等奖:<span>268</span>元(15个)
+					<c:forEach items="${awardsMap}" var="entry" varStatus="vs">
+						${entry.value.name}:<span>${entry.value.description}</span>元(<span style="color: white;" id="count${entry.key}" data-count="${entry.value.count}">${entry.value.count}</span>个)
+						<c:if test="${not vs.last}">&nbsp;&nbsp;&nbsp;&nbsp;</c:if>
+					</c:forEach>
 				</td>
 			</tr>
 			<tr>
 				<td class="td_border">
 					<P>已中奖名单</P>
 
-					<%-- <c:set var="oldAwardsid" value=""/>
-					<c:forEach items="${luvos}" var="data" varStatus="vs">
-						<c:if test="${data.awardsid ne oldAwardsid}">
-							<c:if test="${not empty oldAwardsid}">
-									<div class="clear"></div>
-								</div>
-							</c:if>
-						<div class="sy_div">
-							<div class="tittle" style="background:#fdf4c6;">${data.awardsname}</div>
-						</c:if>
-							<div class="wx_box">
-								<div class="name">
-									<div class="name_img"><img src="${data.headimgurl}"></div>
-									<div class="name_font">${data.username}</div>
-									<div class="clear"></div>
-								</div>
-							</div>
-							<c:if test="${vs.last}">
-									<div class="clear"></div>
-								</div>
-							</c:if>
-							<c:set var="oldAwardsid" value="${data.awardsid}"/>
-					</c:forEach> --%>
-
-					<div id="awards0" class="sy_div">
-						
-					</div>
 					<div id="awards1" class="sy_div">
 					
 					</div>
@@ -93,6 +65,9 @@
 						
 					</div>
 
+					<div id="awards5" class="sy_div">
+						
+					</div>
 				</td>
 			</tr>
 		</table>
@@ -155,7 +130,7 @@
 			
 			
 			window.onload=function(){
-				//假设这里每个五分钟执行一次test函数
+				//假设这里每隔三秒执行一次函数
 				getLuckusers();
 			} 
 			
@@ -169,44 +144,50 @@
 					  success:function(json){
 						  if (200 == json["code"]) {
 							  var data = json["data"] || '[]';
-							  var li0 = '<div class="tittle" style="background:#dccae3;">特等奖</div>',
-							  	li1 = '<div class="tittle" style="background:#fdf4c6;">一等奖</div>',
-							  	li2 = '<div class="tittle" style="background:#fcdfbe;">二等奖</div>',
-							  	li3 = '<div class="tittle" style="background:#e5d1bb;">三等奖</div>',
-							  	li4 = '<div class="tittle" style="background:#e2e2e2;">四等奖</div>';
-							  var ac0=0, ac1=0, ac2=0, ac3=0, ac4=0; 
+							  var li1 = '<div class="tittle" style="background:#dccae3;">特等奖</div>',
+							  	li2 = '<div class="tittle" style="background:#fdf4c6;">一等奖</div>',
+							  	li3 = '<div class="tittle" style="background:#fcdfbe;">二等奖</div>',
+							  	li4 = '<div class="tittle" style="background:#e5d1bb;">三等奖</div>',
+							  	li5 = '<div class="tittle" style="background:#e2e2e2;">四等奖</div>';
+							  var ac1=0, ac2=0, ac3=0, ac4=0, ac5=0; 
 							  var div = '';
 							  for(var i=0; i<data.length; i++) {
 								  div = '<div class="wx_box"><div class="name"><div class="name_img"><img src="'+data[i]["headimgurl"]+'"></div><div class="name_font">'+data[i]["username"]+'</div><div class="clear"></div></div></div>';
-								  if (0 == data[i]["awardsid"] - 1) {
-									  li0 += div;
-									  ac0++;
-								  } else if (1 == data[i]["awardsid"] - 1) {
+								  if (1 == data[i]["awardsid"]) {
 									  li1 += div;
 									  ac1++;
-								  } else if (2 == data[i]["awardsid"] - 1) {
+								  } else if (2 == data[i]["awardsid"]) {
 									  li2 += div;
 									  ac2++;
-								  } else if (3 == data[i]["awardsid"] - 1) {
+								  } else if (3 == data[i]["awardsid"]) {
 									  li3 += div;
 									  ac3++;
-								  } else if (4 == data[i]["awardsid"] - 1) {
+								  } else if (4 == data[i]["awardsid"]) {
 									  li4 += div;
 									  ac4++;
+								  } else if (5 == data[i]["awardsid"]) {
+									  li5 += div;
+									  ac5++;
 								  }
 							  }
-							  li0 += '<div class="clear"></div>',
-							  	li1 += '<div class="clear"></div>',
-							  	li2 += '<div class="clear"></div>',
-							  	li3 += '<div class="clear"></div>',
-							  	li4 += '<div class="clear"></div>';
-							  $("#awards0").html(li0);
+							  li1 += '<div class="clear"></div>',
+							  li2 += '<div class="clear"></div>',
+							  li3 += '<div class="clear"></div>',
+							  li4 += '<div class="clear"></div>';
+							  li5 += '<div class="clear"></div>',
 							  $("#awards1").html(li1);
 							  $("#awards2").html(li2);
 							  $("#awards3").html(li3);
 							  $("#awards4").html(li4);
+							  $("#awards5").html(li5);
 							  
-							  $("#syawards").html('<P>剩余奖项</P>特等奖:<span>1800</span>元('+(1-ac0)+'个)&nbsp;&nbsp;&nbsp;&nbsp;一等奖:<span>1000</span>元('+(2-ac1)+'个)&nbsp;&nbsp;&nbsp;&nbsp;二等奖:<span>600</span>元('+(4-ac2)+'个)&nbsp;&nbsp;&nbsp;&nbsp;三等奖:<span>388</span>元('+(10-ac3)+'个)&nbsp;&nbsp;&nbsp;&nbsp;四等奖:<span>268</span>元('+(15-ac4)+'个)');
+							  $("#count1").html($("#count1").attr("data-count") - ac1);
+							  $("#count2").html($("#count2").attr("data-count") - ac2);
+							  $("#count3").html($("#count3").attr("data-count") - ac3);
+							  $("#count4").html($("#count4").attr("data-count") - ac4);
+							  $("#count5").html($("#count5").attr("data-count") - ac5);
+							  
+//							  $("#syawards").html('<P>剩余奖项</P>特等奖:<span>1800</span>元('+(1-ac0)+'个)&nbsp;&nbsp;&nbsp;&nbsp;一等奖:<span>1000</span>元('+(2-ac1)+'个)&nbsp;&nbsp;&nbsp;&nbsp;二等奖:<span>600</span>元('+(4-ac2)+'个)&nbsp;&nbsp;&nbsp;&nbsp;三等奖:<span>388</span>元('+(10-ac3)+'个)&nbsp;&nbsp;&nbsp;&nbsp;四等奖:<span>268</span>元('+(15-ac4)+'个)');
 						  }
 					  },
 					  error: function() {

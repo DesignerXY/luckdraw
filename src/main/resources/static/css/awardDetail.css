@@ -70,7 +70,7 @@ body {
 	float: left;
 	padding-right: 2%;
 	padding-top: 2%;
-	width: 23%;
+	min-width: 23%;
 }
 
 .sy_div .wx_box .name {

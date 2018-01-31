@@ -265,6 +265,10 @@ public class LuckdrawManager implements InitializingBean, DisposableBean {
     	return luckuserVOs;
     }
     
+    public Map<Integer, Awards> getAwardsMap() {
+    	return awardsMap;
+    }
+    
     
     public static void main(String[] args) throws UnsupportedEncodingException {
 //    	List<Integer> list = new ArrayList<Integer>();

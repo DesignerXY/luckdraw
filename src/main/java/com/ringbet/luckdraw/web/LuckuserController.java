@@ -46,6 +46,7 @@ public class LuckuserController {
     		return "redirect:/luckuser/luckdraw?signinuserid="+signinuserid;
     	}
     	map.put("signinuserid", signinuserid);
+    	map.put("awardsMap", ldm.getAwardsMap());
     	return "luckuser";
     }
 
@@ -97,9 +98,7 @@ public class LuckuserController {
     	log.info(JSON.toJSONString(luvo));
     	map.put("luvo", luvo);
     	
-    	List<LuckuserVO> list = ldm.getLuckuserVOs();
-    	log.info(JSON.toJSONString(list));
-    	map.put("luvos", list);
+    	map.put("awardsMap", ldm.getAwardsMap());
     	
         return "luckdraw";
     }
@@ -114,6 +113,7 @@ public class LuckuserController {
     
     @RequestMapping("/controller")
     public String controller(ModelMap map) {
+    	map.put("awardsMap", ldm.getAwardsMap());
     	String status = "init";
         if (ldm.isStart())
         	status = "start";
